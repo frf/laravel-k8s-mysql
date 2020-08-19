@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      volumes:
+      - name: dir
+        hostPath:
+          path: /code
+      containers:
+      - name: php
+        image: fabiorf/laravel-travel-k8s:latest
+        volumeMounts:
+        - name: dir
+          mountPath: /code
